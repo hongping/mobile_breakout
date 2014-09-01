@@ -17,8 +17,8 @@ Game.Boot.prototype = {
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             this.scale.minWidth  = Game.width;
             this.scale.minHeight = Game.height;
-            this.scale.maxWidth  = Game.width;
-            this.scale.maxHeight = Game.height;
+            this.scale.maxWidth  = 1024;
+            this.scale.maxHeight = 1536;
             this.scale.pageAlignHorizontally = true;
             this.scale.pageAlignVertically   = true;
             this.scale.setScreenSize(true);
@@ -26,8 +26,8 @@ Game.Boot.prototype = {
             this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             this.scale.minWidth  = Game.width;
             this.scale.minHeight = Game.height;
-            this.scale.maxWidth  = Game.width;
-            this.scale.maxHeight = Game.height;
+            this.scale.maxWidth  = 1024;
+            this.scale.maxHeight = 1536;
             this.scale.pageAlignHorizontally = true;
             this.scale.pageAlignVertically   = true;
             this.scale.forceOrientation(true,false);

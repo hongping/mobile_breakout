@@ -5,6 +5,8 @@ Game.Game = function(g) {
 Game.Game.prototype = {
     preload: function(g) {},
     create: function(g) {
+        this.input.addPointer();
+
         g.physics.startSystem(Phaser.Physics.ARCADE);
         g.physics.arcade.checkCollision.down = false;
         
@@ -43,19 +45,18 @@ Game.Game.prototype = {
             { font: "20px Courier New", fill: "#000000", align: "left" });
         this.score = 0;
         
-        this.startText = g.add.text(60,240,'PRESS LEFT ARROW OR RIGHT ARROW TO BEGIN',
-            { font: "23px Courier New", fill: "#000000", align: "center" });
+        this.startText = g.add.text(50,240,'-- TAP TO BEGIN --\n\n TAP LEFT PART OF THE SCREEN TO MOVE LEFT\nTAP RIGHT PART OF THE SCREEN TO MOVE RIGHT',
+            { font: "18px Courier New", fill: "#000000", align: "center" });
         this.startText.wordWrap      = true;
-        this.startText.wordWrapWidth = 200;
+        this.startText.wordWrapWidth = 260;
         
         this.explosionSound = g.add.audio('explosion');
         
-        this.cursor = this.input.keyboard.createCursorKeys();
+//        this.cursor = this.input.keyboard.createCursorKeys();
         this.firstKeyDown = true;
     },
     update: function(g) {
-        if ((this.cursor.left.isDown || this.cursor.right.isDown) 
-            && this.firstKeyDown) {
+        if (this.input.pointer1.isDown && this.firstKeyDown) {
             this.firstKeyDown = false;
             this.ball.body.velocity.y = -500;
             this.ball.body.velocity.x = Math.floor(Math.random()*501)-250;
@@ -65,14 +66,38 @@ Game.Game.prototype = {
             g.physics.arcade.collide(this.ball,this.blocks,this.ballHitBlocks,null,this);
         }
         
-        if (this.cursor.left.isDown)
+        if (this.input.pointer1.isDown) {
+            if (this.input.x < 160)
+                if (this.paddle.x <= 5) { this.paddle.body.velocity.x = 0; }
+                else { this.paddle.body.velocity.x = -260; }
+            else if (this.input.x > 160)
+                if (this.paddle.x >= 288) { this.paddle.body.velocity.x = 0; }
+                else { this.paddle.body.velocity.x = 260;  }
+        } else
+            this.paddle.body.velocity.x = 0;
+    },
+
+    userTap: function() {
+        if (this.firstKeyDown) {
+            this.firstKeyDown = false;
+//            this.ball.body.velocity.y = -500;
+//            this.ball.body.velocity.x = Math.floor(Math.random()*501)-250;
+            this.startText.destroy();
+        }
+
+        console.log(this.paddle.x);
+
+        if (this.input.x < 160) {
             if (this.paddle.x <= 5) { this.paddle.body.velocity.x = 0; }
             else { this.paddle.body.velocity.x = -260; }
-        else if (this.cursor.right.isDown)
+        } else {
             if (this.paddle.x >= 288) { this.paddle.body.velocity.x = 0; }
             else { this.paddle.body.velocity.x = 260;  }
-        else
-            this.paddle.body.velocity.x = 0;
+        }
+    },
+
+    userUp: function() {
+        this.paddle.body.velocity = 0;
     },
     
     ballHitPaddle: function(_ball,_paddle) {

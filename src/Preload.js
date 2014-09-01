@@ -11,12 +11,12 @@ Game.Preload.prototype = {
         this.load.image('block_3','img/red_block.png');
         this.load.image('block_4','img/violet_block.png');
         this.load.image('block_5','img/yellow_block.png');
-        this.load.audio('bgmusic','asset/bgmusic.wav');
+//        this.load.audio('bgmusic','asset/bgmusic.wav');
         this.load.audio('explosion','asset/explosion.wav');
     },
     create: function(g) {
-        this.bgmusic = this.add.audio('bgmusic');
-        this.bgmusic.play('',0,1,true);
+//        this.bgmusic = this.add.audio('bgmusic');
+//        this.bgmusic.play('',0,1,true);
     },
     update: function(g) {
         g.state.start('Game');
